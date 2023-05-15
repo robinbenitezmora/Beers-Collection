@@ -30,6 +30,9 @@ gem "jbuilder"
 # Use Figaro for app configuration
 gem "figaro"
 
+# Use Webpacker for app-like JavaScript
+gem "webpacker"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
