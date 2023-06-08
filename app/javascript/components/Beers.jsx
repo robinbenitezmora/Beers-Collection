@@ -35,3 +35,19 @@ loadBeers = () => {
    })
    .catch((err) => this.setState({ error: true }));
 };
+
+deleteBeer = (id) => {
+  const url = `api/v1/beers/${id}`;
+
+  fetch(url, {
+    method: "DELETE",
+  })
+    .then((data) => {
+      if (data.ok) {
+        this.reloadBeers();
+        return data.json();
+      }
+      throw new Error("Network response was not ok.");
+    })
+    .catch((err) => message.error("Error: " + err));
+};
