@@ -1,12 +1,51 @@
-import { message } from "antd";
+import { Table, message, Popconfirm } from "antd";
 import React from "react";
-import { useState } from "react";
+import AddBeerModal from "./AddBeerModal";
+
+class Beers extends React.Component {
+  columns = [
+    {
+      title: "Brand",
+      dataIndex: "brand",
+      key: "brand",
+    },
+    {
+      title: "Style",
+      dataIndex: "style",
+      key: "style",
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+      key: "country",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
+    },
+    {
+      title: "",
+      key: "action",
+      render: (text, record) => (
+        <Popconfirm title="Are you sure to delete this beer?" onConfirm={() => this.deleteBeer(record.id)}>
+          <a href="#" type="danger">
+            Delete{" "}
+          </a>
+        </Popconfirm>
+      ),
+    },
+  ];
 
 state = {
   beers: [],
   loading: true,
   error: false,
 };
+
+componentDidMount() {
+  this.loadBeers();
+}
 
 loadBeers = () => {
  const url = "api/v1/beers/index";
@@ -36,6 +75,11 @@ loadBeers = () => {
    .catch((err) => this.setState({ error: true }));
 };
 
+reloadBeers = () => {
+  this.setState({ beers: [], loading: true });
+  this.loadBeers();
+};
+
 deleteBeer = (id) => {
   const url = `api/v1/beers/${id}`;
 
@@ -51,3 +95,24 @@ deleteBeer = (id) => {
     })
     .catch((err) => message.error("Error: " + err));
 };
+
+render() {
+  const { beers, loading, error } = this.state;
+
+  if (loading) {
+    return <p>Loading beers...</p>;
+  }
+
+  if (error) {
+    return <p>There was an error loading the beers</p>;
+  }
+
+  return (
+    <>
+      <Table className="table-striped-rows" dataSource={beers} columns={this.columns} />
+      <AddBeerModal reloadBeers={this.reloadBeers} />
+    </>
+  );
+}
+}
+
