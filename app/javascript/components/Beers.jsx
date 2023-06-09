@@ -39,6 +39,7 @@ class Beers extends React.Component {
 
 state = {
   beers: [],
+  visible: false,
   loading: true,
   error: false,
 };
@@ -68,6 +69,7 @@ loadBeers = () => {
       };
       this.setState((prevState) => ({
         beers: [...prevState.beers, newBeer],
+        visible: true,
         loading: false,
       }));
     });
@@ -95,6 +97,29 @@ deleteBeer = (id) => {
     })
     .catch((err) => message.error("Error: " + err));
 };
+
+onFinish = (values) => {
+  const url = "api/v1/beers/";
+  fetch (url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  })
+    .then((data) => {
+      if (data.ok) {
+        this.handleCancel();
+
+        return data.json();
+      }
+      throw new Error("Network response was not ok.");
+    })
+    .then(() {
+      this.props.reloadBeers();
+    })
+    .catch((err) => console.error("Error: " + err));
+    };
 
 render() {
   const { beers, loading, error } = this.state;
