@@ -2,7 +2,7 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 My Budget App <a name="about-project"></a>
+# 📖 Beers Collection <a name="about-project"></a>
 
 
 Beer Collection is a fascinating app on GitHub dedicated to the world of beer enthusiasts. This repository serves as a comprehensive catalog and management system for beer lovers to keep track of their personal beer collections. Users can create and manage virtual collections, adding details such as brand, style, country of origin, and quantity.
